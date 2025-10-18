@@ -1,0 +1,171 @@
+# See https://docs.github.com/get-started/getting-started-with-git/ignoring-files
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Build / output
+/dist/
+/out-tsc/
+/tmp/
+/build/
+/release/
+/public/build/
+/www/
+/coverage/
+/.angular/cache/
+
+# Angular CLI
+.angular/
+.angular/cache/
+
+# Compiled source
+*.tsbuildinfo
+
+# Environment files
+.env
+.env.*
+.local
+env.local
+/.env.local
+
+# Logs
+*.log
+logs/
+*.log.*
+npm-debug.log*
+pnpm-debug.log*
+
+# Dependency directories
+/node_modules/
+/.pnp/
+.pnp.js
+
+# IDEs and editors
+.idea/
+*.sublime-workspace
+*.sublime-project
+.project
+.classpath
+.settings/
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/
+
+# System files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Test output
+/coverage/
+/coverage/**/*
+/test-results/
+karma-*.log
+jest.cache
+nyc_output/
+
+# Miscellaneous
+.sass-cache/
+*/__pycache__/
+*.py[cod]
+*~
+*.swp
+*.swo
+*.tmp
+*.temp
+*.orig
+*.rej
+~$*
+
+# Lock and package manager files (optional - keep if you commit lockfiles)
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml
+
+# Storybook
+.out/
+
+# Docker
+docker-compose.override.yml
+docker-compose.*.yml
+
+# Firebase
+.firebase/
+
+# IDE / OS specific
+/.vscode-test/
+
+# Screenshots, recordings
+__screenshots__/
+*.png
+*.jpg
+
+# Local build artifacts
+/dist-electron/
+
+# Others
+/.cache/
+.eslintcache
+.parcel-cache/
+.next/
+.nuxt/
+.vercel/
+.turbo/
+.cache/
+.serverless/
+
+# Optional: allow certain files in vscodesettings to be committed
+# Uncomment if you want to keep workspace settings in repo
+# !.vscode/settings.json
+# !.vscode/launch.json
+# !.vscode/tasks.json
+# See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
+
+# Compiled output
+/dist
+/tmp
+/out-tsc
+/bazel-out
+
+# Node
+/node_modules
+npm-debug.log
+yarn-error.log
+
+# IDEs and editors
+.idea/
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# Visual Studio Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/*
+
+# Miscellaneous
+/.angular/cache
+.sass-cache/
+/connect.lock
+/coverage
+/libpeerconnection.log
+testem.log
+/typings
+__screenshots__/
+
+# System files
+.DS_Store
+Thumbs.db
