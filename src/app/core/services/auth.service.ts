@@ -1,5 +1,8 @@
 import { Injectable, inject } from '@angular/core';
+import { Router } from '@angular/router';
+import { Observable, tap } from 'rxjs';
 import { Api } from './api.service';
+import { User } from '../../shared/models';
 
 export interface LoginCredentials {
   email: string;
@@ -15,32 +18,22 @@ export interface JwtPayload {
   [key: string]: any;
 }
 
-export interface User {
-  id?: string;
-  email?: string;
-  name?: string;
-  role?: string;
-  [key: string]: any;
-}
-
 @Injectable({ providedIn: 'root' })
 export class Auth {
   private readonly api = inject(Api);
+  private readonly router = inject(Router);
   private readonly tokenKey = 'auth_token';
 
-  /** Call POST /auth/login with credentials, store token in localStorage and return the token payload */
-  async login(credentials: LoginCredentials): Promise<JwtPayload> {
-    try {
-      const res = await this.api.post<{ token: string }, LoginCredentials>('/auth/login', credentials);
-      const token = (res as any)?.token ?? (res as any)?.accessToken ?? null;
-      if (!token) throw { message: 'No token returned from /auth/login', res };
-      localStorage.setItem(this.tokenKey, token);
-      const payload = this.decodeToken(token);
-      return payload ?? {};
-    } catch (err) {
-      // rethrow so caller can handle it
-      throw err;
-    }
+  /** Call POST /auth/login with credentials, store token in localStorage */
+  login(credentials: LoginCredentials): Observable<{ token: string }> {
+    return this.api.post<{ token: string }, LoginCredentials>('/auth/login', credentials).pipe(
+      tap((res) => {
+        const token = res?.token ?? (res as any)?.accessToken ?? null;
+        if (token) {
+          localStorage.setItem(this.tokenKey, token);
+        }
+      })
+    );
   }
 
   /** Retrieve token from localStorage */
@@ -79,19 +72,15 @@ export class Auth {
     return null;
   }
 
-  /** Clear token and any related auth state */
+  /** Clear token and navigate to login page */
   logout(): void {
     localStorage.removeItem(this.tokenKey);
+    this.router.navigate(['/login']);
   }
 
   /** Get current user info from backend: GET /auth/me */
-  async getCurrentUser(): Promise<User> {
-    try {
-      const user = await this.api.get<User>('/auth/me');
-      return user as User;
-    } catch (err) {
-      throw err;
-    }
+  getCurrentUser(): Observable<User> {
+    return this.api.get<User>('/auth/me');
   }
 
   // --- internal helpers ---

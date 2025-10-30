@@ -1,17 +1,15 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
-import { catchError, firstValueFrom, Observable, throwError } from 'rxjs';
-
-// A minimal environment lookup. If you have an environment file, prefer importing from there.
-const DEFAULT_BACKEND = 'http://localhost:3000/badPlan';
+import { catchError, Observable, throwError } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class Api {
   // private HttpClient injected via function inject() to follow standalone/service style
   private readonly http = inject(HttpClient);
 
-  // Backend base URL (could be replaced by an import from environments)
-  private readonly baseUrl: string = (window as any)?.env?.BACKEND_URL || DEFAULT_BACKEND;
+  // Backend base URL from environment config
+  private readonly baseUrl: string = environment.apiUrl;
 
   // Default headers (JSON)
   private readonly jsonHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
@@ -42,7 +40,7 @@ export class Api {
    * @param path endpoint path or full URL
    * @param params optional query parameters
    */
-  get<T = unknown>(path: string, params?: Record<string, string | number | boolean>): Promise<T> {
+  get<T = unknown>(path: string, params?: Record<string, string | number | boolean>): Observable<T> {
     const url = this.buildUrl(path);
     let httpParams = new HttpParams();
     if (params) {
@@ -50,34 +48,37 @@ export class Api {
         httpParams = httpParams.set(k, String(params[k]));
       });
     }
-    const obs: Observable<T> = this.http.get<T>(url, { params: httpParams }).pipe(catchError((e) => this.handleError(e)));
-    return firstValueFrom(obs);
+    return this.http.get<T>(url, { params: httpParams }).pipe(
+      catchError((e) => this.handleError(e))
+    );
   }
 
   /**
    * POST request with JSON body
    */
-  post<T = unknown, B = unknown>(path: string, body: B, headers?: HttpHeaders): Promise<T> {
+  post<T = unknown, B = unknown>(path: string, body: B, headers?: HttpHeaders): Observable<T> {
     const url = this.buildUrl(path);
     const httpOptions = { headers: headers ?? this.jsonHeaders };
-    const obs: Observable<T> = this.http.post<T>(url, body, httpOptions).pipe(catchError((e) => this.handleError(e)));
-    return firstValueFrom(obs);
+    return this.http.post<T>(url, body, httpOptions).pipe(
+      catchError((e) => this.handleError(e))
+    );
   }
 
   /**
    * PATCH request with JSON body
    */
-  patch<T = unknown, B = unknown>(path: string, body: B, headers?: HttpHeaders): Promise<T> {
+  patch<T = unknown, B = unknown>(path: string, body: B, headers?: HttpHeaders): Observable<T> {
     const url = this.buildUrl(path);
     const httpOptions = { headers: headers ?? this.jsonHeaders };
-    const obs: Observable<T> = this.http.patch<T>(url, body, httpOptions).pipe(catchError((e) => this.handleError(e)));
-    return firstValueFrom(obs);
+    return this.http.patch<T>(url, body, httpOptions).pipe(
+      catchError((e) => this.handleError(e))
+    );
   }
 
   /**
    * DELETE request
    */
-  delete<T = unknown>(path: string, params?: Record<string, string | number | boolean>): Promise<T> {
+  delete<T = unknown>(path: string, params?: Record<string, string | number | boolean>): Observable<T> {
     const url = this.buildUrl(path);
     let httpParams = new HttpParams();
     if (params) {
@@ -85,8 +86,9 @@ export class Api {
         httpParams = httpParams.set(k, String(params[k]));
       });
     }
-    const obs: Observable<T> = this.http.delete<T>(url, { params: httpParams }).pipe(catchError((e) => this.handleError(e)));
-    return firstValueFrom(obs);
+    return this.http.delete<T>(url, { params: httpParams }).pipe(
+      catchError((e) => this.handleError(e))
+    );
   }
 }
 
