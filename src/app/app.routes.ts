@@ -9,10 +9,11 @@ export const routes: Routes = [
     loadComponent: () => import('./features/auth/login/login.component').then(m => m.LoginComponent)
   },
 
-  // Protected routes
+  // Protected routes with layout
   {
     path: '',
     canActivate: [authGuard],
+    loadComponent: () => import('./layouts/main-layout/main-layout.component').then(m => m.MainLayoutComponent),
     children: [
       {
         path: 'dashboard',

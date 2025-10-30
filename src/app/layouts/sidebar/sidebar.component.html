@@ -1,0 +1,38 @@
+<aside class="bg-base-200 min-h-screen w-64 p-4">
+  <nav class="menu">
+    <ul class="menu-list space-y-2">
+      @for (item of menuItems; track item.route) {
+        @if (shouldShowMenuItem(item)) {
+          <li>
+            <a
+              [routerLink]="item.route"
+              [class.active]="isActive(item.route)"
+              class="flex items-center gap-3 px-4 py-3 rounded-lg transition-colors hover:bg-base-300"
+              [class.bg-primary]="isActive(item.route)"
+              [class.text-primary-content]="isActive(item.route)"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  [attr.d]="item.icon"
+                />
+              </svg>
+              <span class="text-sm font-medium">{{ item.label }}</span>
+              @if (item.requiresAdmin) {
+                <span class="badge badge-xs badge-primary ml-auto">Admin</span>
+              }
+            </a>
+          </li>
+        }
+      }
+    </ul>
+  </nav>
+</aside>

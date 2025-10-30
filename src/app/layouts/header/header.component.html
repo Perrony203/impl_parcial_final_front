@@ -1,0 +1,64 @@
+<header class="navbar bg-base-100 shadow-lg fixed top-0 left-0 right-0 z-50">
+  <div class="navbar-start">
+    <!-- Mobile menu button -->
+    <label
+      for="sidebar-drawer"
+      class="btn btn-ghost btn-circle lg:hidden"
+      (click)="onToggleSidebar()"
+      aria-label="Open sidebar menu"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+    </label>
+
+    <!-- App title/logo -->
+    <a routerLink="/dashboard" class="btn btn-ghost text-xl normal-case">
+      BadPlan
+    </a>
+  </div>
+
+  <div class="navbar-center hidden lg:flex">
+    <span class="text-sm opacity-70">
+      {{ userRole === 'superadmin' ? 'Super Admin' : 'Daemon' }}
+    </span>
+  </div>
+
+  <div class="navbar-end">
+    <!-- User dropdown -->
+    <div class="dropdown dropdown-end">
+      <label tabindex="0" class="btn btn-ghost btn-circle avatar placeholder" aria-label="User menu">
+        <div class="bg-neutral text-neutral-content rounded-full w-10">
+          <span class="text-xl">{{ userName.charAt(0).toUpperCase() }}</span>
+        </div>
+      </label>
+      <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-200 rounded-box w-52">
+        <li class="menu-title">
+          <span>{{ userName }}</span>
+        </li>
+        <li>
+          <a routerLink="/dashboard" class="justify-between">
+            Dashboard
+          </a>
+        </li>
+        @if (userRole === 'superadmin') {
+          <li>
+            <a routerLink="/users" class="justify-between">
+              User Management
+              <span class="badge badge-sm badge-primary">Admin</span>
+            </a>
+          </li>
+        }
+        <li><hr class="my-1"></li>
+        <li>
+          <a (click)="logout()" class="text-error">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+            </svg>
+            Logout
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</header>
