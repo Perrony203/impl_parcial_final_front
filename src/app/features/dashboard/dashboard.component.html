@@ -1,0 +1,139 @@
+<div class="container mx-auto max-w-7xl">
+  <!-- Page Header -->
+  <div class="mb-8">
+    <h1 class="text-4xl font-bold mb-2">Dashboard</h1>
+    <p class="text-base-content/60">
+      Welcome back, <span class="font-semibold">{{ currentUser()?.username }}</span>! Here's your overview.
+    </p>
+  </div>
+
+  <!-- Loading State -->
+  @if (isLoading()) {
+    <app-loading-spinner [size]="'lg'" [message]="'Loading dashboard...'" />
+  }
+
+  @if (!isLoading()) {
+    <!-- Statistics Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+
+      <!-- Total Victims Card -->
+      <div class="stats shadow-lg bg-base-200 border border-base-300">
+        <div class="stat">
+          <div class="stat-figure text-primary">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+            </svg>
+          </div>
+          <div class="stat-title text-base-content/60">Total Victims</div>
+          <div class="stat-value text-primary text-4xl">{{ stats().totalVictims }}</div>
+          <div class="stat-desc text-base-content/50">Tracked targets</div>
+        </div>
+      </div>
+
+      <!-- Active Attempts Card -->
+      <div class="stats shadow-lg bg-base-200 border border-base-300">
+        <div class="stat">
+          <div class="stat-figure text-secondary">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+          </div>
+          <div class="stat-title text-base-content/60">Active Attempts</div>
+          <div class="stat-value text-secondary text-4xl">{{ stats().activeAttempts }}</div>
+          <div class="stat-desc text-base-content/50">In progress</div>
+        </div>
+      </div>
+
+      <!-- Pending Reports Card (Superadmin only) -->
+      @if (userRole() === 'superadmin') {
+        <div class="stats shadow-lg bg-base-200 border border-base-300">
+          <div class="stat">
+            <div class="stat-figure text-warning">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+            </div>
+            <div class="stat-title text-base-content/60">Pending Reports</div>
+            <div class="stat-value text-warning text-4xl">{{ stats().pendingReports }}</div>
+            <div class="stat-desc text-base-content/50">Needs review</div>
+          </div>
+        </div>
+      }
+
+      <!-- My Rewards Card -->
+      <div class="stats shadow-lg bg-base-200 border border-base-300">
+        <div class="stat">
+          <div class="stat-figure text-success">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7" />
+            </svg>
+          </div>
+          <div class="stat-title text-base-content/60">My Rewards</div>
+          <div class="stat-value text-success text-4xl">{{ stats().myRewards }}</div>
+          <div class="stat-desc text-base-content/50">Total earned</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Actions Section -->
+    <div class="card bg-base-200 shadow-xl border border-base-300 mb-8">
+      <div class="card-body">
+        <h2 class="card-title text-2xl mb-4">Quick Actions</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+
+          <!-- Create Attempt -->
+          <button
+            (click)="navigateToCreateAttempt()"
+            class="btn btn-primary h-auto py-6 flex-col gap-2"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+            </svg>
+            <span>Create Attempt</span>
+          </button>
+
+          <!-- Report Incident -->
+          <button
+            (click)="navigateToReportIncident()"
+            class="btn btn-secondary h-auto py-6 flex-col gap-2"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+            <span>Report Incident</span>
+          </button>
+
+          <!-- View Victims -->
+          <a
+            routerLink="/victims"
+            class="btn btn-outline btn-primary h-auto py-6 flex-col gap-2"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+            </svg>
+            <span>View Victims</span>
+          </a>
+
+          <!-- View Attempts -->
+          <a
+            routerLink="/attempts"
+            class="btn btn-outline btn-secondary h-auto py-6 flex-col gap-2"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+            </svg>
+            <span>View Attempts</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Info Card -->
+    <div class="alert alert-info">
+      <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+      </svg>
+      <span>Navigate using the sidebar menu or quick action buttons above. Your role: <strong>{{ userRole() }}</strong></span>
+    </div>
+  }
+</div>

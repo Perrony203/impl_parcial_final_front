@@ -1,13 +1,12 @@
-import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
+  standalone: true,
   imports: [RouterOutlet],
-  templateUrl: './app.html',
-  styleUrls: ['./app.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  templateUrl: './app.html'
 })
-export class App {
-  readonly title = signal<string>('impl_parcial_final_front');
+export class AppComponent {
+  title = 'BadPlan';
 }

@@ -1,0 +1,60 @@
+<header class="navbar bg-base-200 shadow-lg fixed top-0 left-0 right-0 z-50 border-b border-base-300">
+  <div class="flex-none lg:hidden">
+    <!-- Mobile Menu Button -->
+    <!-- Why: Only visible on mobile to toggle sidebar drawer -->
+    <label
+      for="sidebar-drawer"
+      class="btn btn-square btn-ghost"
+      (click)="toggleSidebar()"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+    </label>
+  </div>
+
+  <!-- App Title -->
+  <div class="flex-1">
+    <a class="btn btn-ghost normal-case text-xl gap-2">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+      </svg>
+      <span class="hidden sm:inline">BadPlan</span>
+    </a>
+  </div>
+
+  <!-- User Info & Logout -->
+  <div class="flex-none gap-2">
+    @if (currentUser(); as user) {
+      <!-- User Info -->
+      <div class="flex items-center gap-3">
+        <!-- Avatar -->
+        <div class="avatar placeholder hidden sm:flex">
+          <div class="bg-neutral text-neutral-content rounded-full w-10">
+            <span class="text-lg">{{ user.username.charAt(0).toUpperCase() }}</span>
+          </div>
+        </div>
+
+        <!-- User Details -->
+        <div class="hidden md:block text-right">
+          <div class="text-sm font-semibold">{{ user.username }}</div>
+          <div [class]="'badge badge-sm ' + roleBadgeClass()">
+            {{ user.role }}
+          </div>
+        </div>
+
+        <!-- Logout Button -->
+        <button
+          class="btn btn-ghost btn-sm gap-2"
+          (click)="logout()"
+          title="Logout"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+          </svg>
+          <span class="hidden sm:inline">Logout</span>
+        </button>
+      </div>
+    }
+  </div>
+</header>

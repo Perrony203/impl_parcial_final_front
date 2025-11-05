@@ -1,0 +1,32 @@
+<!--
+  Why drawer: daisyUI responsive layout
+  - Desktop: Sidebar always visible (lg:drawer-open)
+  - Mobile: Sidebar hidden, opens via hamburger menu
+-->
+<div class="drawer lg:drawer-open min-h-screen bg-base-100">
+  <!-- Hidden checkbox controls drawer state -->
+  <input id="sidebar-drawer" type="checkbox" class="drawer-toggle" />
+
+  <!-- Main content area -->
+  <div class="drawer-content flex flex-col">
+    <!-- Header -->
+    <app-header></app-header>
+
+    <!-- Page content with router-outlet -->
+    <!-- Why pt-16: Offset for fixed header height -->
+    <main class="flex-1 pt-16 overflow-auto">
+      <div class="p-6">
+        <router-outlet></router-outlet>
+      </div>
+    </main>
+  </div>
+
+  <!-- Sidebar -->
+  <div class="drawer-side z-40">
+    <!-- Why drawer-overlay: Closes sidebar when clicking outside on mobile -->
+    <label for="sidebar-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
+    <div class="pt-16 h-full">
+      <app-sidebar></app-sidebar>
+    </div>
+  </div>
+</div>

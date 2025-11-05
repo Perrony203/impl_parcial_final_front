@@ -1,0 +1,105 @@
+<div class="min-h-screen flex items-center justify-center bg-base-100 px-4">
+  <div class="card w-full max-w-md bg-base-200 shadow-2xl">
+    <div class="card-body">
+      <!-- Header -->
+      <div class="text-center mb-6">
+        <h1 class="text-4xl font-bold text-primary mb-2">BadPlan</h1>
+        <p class="text-base-content/60">Resistance Management System</p>
+      </div>
+
+      <!-- Error Alert -->
+      <!-- Why @if: Angular 20 control flow syntax (cleaner than *ngIf) -->
+      @if (errorMessage()) {
+        <div class="alert alert-error mb-4">
+          <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <span>{{ errorMessage() }}</span>
+        </div>
+      }
+
+      <!-- Login Form -->
+      <form (ngSubmit)="onLogin()" class="space-y-4">
+        <!-- Username Field -->
+        <div class="form-control">
+          <label class="label">
+            <span class="label-text">Username</span>
+          </label>
+          <input
+            type="text"
+            [(ngModel)]="credentials.username"
+            name="username"
+            placeholder="Enter username"
+            class="input input-bordered w-full"
+            [disabled]="isLoading()"
+            required
+          />
+        </div>
+
+        <!-- Password Field -->
+        <div class="form-control">
+          <label class="label">
+            <span class="label-text">Password</span>
+          </label>
+          <input
+            type="password"
+            [(ngModel)]="credentials.password"
+            name="password"
+            placeholder="Enter password"
+            class="input input-bordered w-full"
+            [disabled]="isLoading()"
+            required
+          />
+        </div>
+
+        <!-- Submit Button -->
+        <div class="form-control mt-6">
+          <button
+            type="submit"
+            class="btn btn-primary w-full"
+            [disabled]="isLoading()"
+          >
+            <!-- Why @if for loading: Shows spinner during authentication -->
+            @if (isLoading()) {
+              <span class="loading loading-spinner"></span>
+              Logging in...
+            } @else {
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
+              </svg>
+              Login
+            }
+          </button>
+        </div>
+      </form>
+
+      <!-- Dev Quick Fill Buttons -->
+      <!-- Why: Only visible in development for testing -->
+      <div class="divider text-xs text-base-content/40">Quick Fill (Dev Only)</div>
+      <div class="grid grid-cols-2 gap-2">
+        <button
+          type="button"
+          (click)="fillAdmin()"
+          class="btn btn-outline btn-sm"
+          [disabled]="isLoading()"
+        >
+          Admin
+        </button>
+        <button
+          type="button"
+          (click)="fillDaemon()"
+          class="btn btn-outline btn-sm"
+          [disabled]="isLoading()"
+        >
+          Daemon
+        </button>
+      </div>
+
+      <!-- Info Footer -->
+      <div class="text-center mt-6 text-sm text-base-content/50">
+        <p>Mock credentials:</p>
+        <p class="font-mono text-xs mt-1">admin/admin123 | daemon1/daemon123</p>
+      </div>
+    </div>
+  </div>
+</div>
